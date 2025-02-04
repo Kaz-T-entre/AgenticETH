@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+body {
+	font-family: "Nunito";
+}
+.center-container {
+	display: grid;
+	place-items: center;
+	height: 100vh;
+}
+.centered-box {
+	width: 200px;
+	height: 200px;
+	background-color: lightblue;
+}
+.intro-title {
+	margin-bottom: 36px;
+	line-height: 30px;
+	text-align: center;
+	font-size: 24px;
+	font-weight: 700;
+}
+.img-face-id {
+	width: 183px;
+	height: 182px;
+	margin-bottom: 178px;
+	cursor: pointer;
+}
+.btn-face-id {
+	width: 299px;
+	height: 65px;
+	line-height: 65px;
+	background-color: #252b2f;
+	border-radius: 1.25rem;
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: #ffffff;
+	cursor: pointer;
+}
