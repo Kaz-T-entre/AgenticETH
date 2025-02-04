@@ -1,16 +1,25 @@
+import { useNavigate } from "react-router-dom";
 import ImgFaceId from "./assets/images/face-id.png";
 
 function Home() {
+	const navigate = useNavigate();
+
+	const signUp = () => {
+		navigate("/intro");
+	};
+
 	return (
 		<div className="center-container">
 			<div className="centered-div">
-				<h1 className="intro-title">
+				<h1 className="signup-title">
 					Start Magic Wallet
 					<br />
 					with Face ID.
 				</h1>
-				<img src={ImgFaceId} className="img-face-id mx-auto" />
-				<button className="btn-face-id">Sign up with Face ID</button>
+				<img src={ImgFaceId} className="img-face-id mx-auto" onClick={signUp} />
+				<button className="btn-face-id" onClick={signUp}>
+					Sign up with Face ID
+				</button>
 			</div>
 		</div>
 	);

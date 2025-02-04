@@ -13,12 +13,21 @@ body {
 	height: 200px;
 	background-color: lightblue;
 }
-.intro-title {
+.signup-title {
 	margin-bottom: 36px;
 	line-height: 30px;
 	text-align: center;
 	font-size: 24px;
 	font-weight: 700;
+}
+.intro-desc {
+	margin-top: 41px;
+	margin-bottom: 60px;
+	line-height: 25px;
+	text-align: center;
+	font-size: 24px;
+	font-weight: 700;
+	color: #979797;
 }
 .img-face-id {
 	width: 183px;
@@ -26,7 +35,8 @@ body {
 	margin-bottom: 178px;
 	cursor: pointer;
 }
-.btn-face-id {
+.btn-face-id,
+.btn-intro {
 	width: 299px;
 	height: 65px;
 	line-height: 65px;
