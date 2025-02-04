@@ -5,7 +5,7 @@ function Home() {
 	const navigate = useNavigate();
 
 	const signUp = () => {
-		navigate("/intro");
+		navigate("/intro", { replace: true });
 	};
 
 	return (
