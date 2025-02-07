@@ -1,80 +1,58 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import ImgChainBase from "./assets/images/chain-base.png";
-import ImgBank from "./assets/images/i-bank.png";
-import ImgArrow from "./assets/images/i-arrow.png";
-import ImgBuy from "./assets/images/i-buy.png";
-import ImgSend from "./assets/images/i-send.png";
-import ImgReceive from "./assets/images/i-receive.png";
+import { usePrivy } from "@privy-io/react-auth";
+import ImgAvatar from "./assets/images/chain-base.png";
+import ImgBuy from "./assets/images/chain-base.png";
+import ImgSend from "./assets/images/chain-base.png";
+import ImgReceive from "./assets/images/chain-base.png";
 
 function Home() {
 	const navigate = useNavigate();
-	const [isHelp, setIsHelp] = useState(false);
-	const typeHelp = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (e.target.value) {
-			setIsHelp(true);
-		} else {
-			setIsHelp(false);
-		}
-	};
+	const { ready, authenticated } = usePrivy();
 
 	useEffect(() => {
-		const isAuth = localStorage.getItem("user");
-		if (!isAuth) navigate("/auth", { replace: true });
-	}, [navigate]);
+		if (ready && !authenticated) {
+			navigate("/auth", { replace: true });
+		}
+	}, [ready, authenticated, navigate]);
 
 	return (
 		<div className="center-container start-center">
-			<div className="centered-box p-4">
-				<div className="mb-8 text-left">
-					<div className="avatar-box"></div>
-					<div className="lbl-total-asset">Total Asset</div>
-					<div className="val-total-asset">$5,038</div>
+			<div className="centered-box">
+				<div className="flex flex-col items-center">
+					<img src={ImgAvatar} className="avatar-box" alt="Avatar" />
+					<p className="lbl-total-asset">Total Asset</p>
+					<p className="val-total-asset">$1,000</p>
 				</div>
-				<div className="flex overflow-x-scroll -m-4 p-4 mb-4">
-					<div className="flex items-center">
-						<div className="box-asset">
-							<div className="flex items-center">
-								<img src={ImgChainBase} className="img-asset mr-2" />
-								<div className="name-asset">BASE</div>
-							</div>
-							<div className="flex items-center mt-4">
-								<img src={ImgBank} className="i-addr-asset mr-1" />
-								<div className="addr-asset">...561a</div>
-							</div>
-							<div className="w-fit">
-								<div className="value-asset">USD$ 1540</div>
-								<div className="inc-value-asset text-right">+$0.15</div>
+
+				<div className="mt-8">
+					<div className="box-asset flex items-center justify-between mb-4">
+						<div className="flex items-center gap-4">
+							<img src={ImgBuy} className="img-asset" alt="Buy" />
+							<div>
+								<p className="name-asset">Buy</p>
+								<p className="addr-asset">Buy crypto with card</p>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div className="mb-8">
-					<h2 className="help-title pb-3">How Can I Help?</h2>
-					<div className="relative">
-						<input placeholder="Message Here" className="help-input" onChange={typeHelp} />
-						<button className={"help-button absolute cursor-pointer " + (isHelp ? "active" : "")}>
-							<img src={ImgArrow} className="mx-auto" />
-						</button>
+
+					<div className="box-asset flex items-center justify-between mb-4">
+						<div className="flex items-center gap-4">
+							<img src={ImgSend} className="img-asset" alt="Send" />
+							<div>
+								<p className="name-asset">Send</p>
+								<p className="addr-asset">Send to other wallet</p>
+							</div>
+						</div>
 					</div>
-				</div>
-				<div>
-					<h2 className="quick-title mb-2">Quick Menu</h2>
-					<div className="grid grid-cols-2 gap-x-5 gap-y-3">
-						<div className="quick-box p-2 cursor-pointer">
-							<img src={ImgBuy} className="img-buy" />
-							<h3 className="quick-name">Buy Assets</h3>
-							<p className="quick-desc">Buy Crypto/NFTs within a single step.</p>
-						</div>
-						<div className="quick-box p-2 cursor-pointer">
-							<img src={ImgSend} className="img-send" />
-							<h3 className="quick-name">Send Assets</h3>
-							<p className="quick-desc">Send your Crypto/NFTs within a minutes. No Gas-fees.</p>
-						</div>
-						<div className="quick-box p-2 cursor-pointer">
-							<img src={ImgReceive} className="img-receive" />
-							<h3 className="quick-name">Receive Assets</h3>
-							<p className="quick-desc">Get Crypto/NFTs within a single step.</p>
+
+					<div className="box-asset flex items-center justify-between">
+						<div className="flex items-center gap-4">
+							<img src={ImgReceive} className="img-asset" alt="Receive" />
+							<div>
+								<p className="name-asset">Receive</p>
+								<p className="addr-asset">Receive from other wallet</p>
+							</div>
 						</div>
 					</div>
 				</div>
