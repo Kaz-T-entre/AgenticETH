@@ -5,6 +5,7 @@ from cdp_langchain.agent_toolkits import CdpToolkit
 from cdp_langchain.utils import CdpAgentkitWrapper
 from langgraph.prebuilt import create_react_agent
 import requests
+from web3 import Web3
 
 # Import environment variables
 import env_vars
@@ -27,6 +28,9 @@ agent_executor = create_react_agent(llm, tools)
 # Print available tools for debugging
 print(tools)
 
+# Initialize Web3
+web3 = Web3(Web3.HTTPProvider(os.getenv('WEB3_PROVIDER_URL')))
+
 def fetch_on_chain_data(address):
     url = f"https://api.covalenthq.com/v1/1/address/{address}/transactions_v2/"
     params = {
@@ -47,7 +51,11 @@ def detect_fraud(transactions):
 def send_token():
     data = request.get_json()
     prompt = data['prompt']
-    
+    to_address = data['to_address']
+    amount = data['amount']
+    private_key = os.getenv('WALLET_PRIVATE_KEY')
+    from_address = web3.eth.account.privateKeyToAccount(private_key).address
+
     # Execute the action using agent_executor
     events = agent_executor.stream(
         {"messages": [("user", prompt)]},
@@ -59,7 +67,19 @@ def send_token():
     for event in events:
         response.append(event["messages"][-1].content)
     
-    return jsonify({"response": response})
+    # Send token
+    nonce = web3.eth.getTransactionCount(from_address)
+    tx = {
+        'nonce': nonce,
+        'to': to_address,
+        'value': web3.toWei(amount, 'ether'),
+        'gas': 2000000,
+        'gasPrice': web3.toWei('50', 'gwei')
+    }
+    signed_tx = web3.eth.account.signTransaction(tx, private_key)
+    tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    
+    return jsonify({"response": response, "tx_hash": web3.toHex(tx_hash)})
 
 @app.route('/api/fraud-detection', methods=['POST'])
 def fraud_detection():
