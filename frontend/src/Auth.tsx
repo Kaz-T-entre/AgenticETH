@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { usePrivy } from "@privy-io/react-auth"
@@ -14,54 +14,58 @@ function Auth() {
   const [message, setMessage] = useState('')
   const [isRegistering, setIsRegistering] = useState(true);
 
-  // If the user is already authenticated, redirect to the Intro page
-  if (ready && authenticated) {
-    navigate("/intro", { replace: true });
-    return null;
-  }
+  // Once authentication is successful, automatically redirect to Intro page.
+  useEffect(() => {
+    if (ready && authenticated) {
+      navigate("/intro", { replace: true });
+    }
+  }, [ready, authenticated, navigate]);
 
   // Face ID Registration flow
   const handleRegister = async () => {
     try {
       setError('')
       setMessage('')
-
-      // 1. Request registration challenge from the server
-      const { data } = await axios.post('http://localhost:3001/api/auth/register-challenge', {
-        email,
-      })
-
-      // 2. Perform WebAuthn registration (using Face ID or platform authenticator)
-      const publicKeyOptions = data.publicKeyCredentialCreationOptions
-      publicKeyOptions.challenge = base64UrlToArrayBuffer(publicKeyOptions.challenge)
-      publicKeyOptions.user.id = base64UrlToArrayBuffer(publicKeyOptions.user.id)
+      const { data } = await axios.post('http://localhost:3001/api/auth/register-challenge', { email });
+      
+      // Assume we perform conversion for WebAuthn options here
+      const publicKeyOptions = data.publicKeyCredentialCreationOptions;
+      publicKeyOptions.challenge = base64UrlToArrayBuffer(publicKeyOptions.challenge);
+      publicKeyOptions.user.id = base64UrlToArrayBuffer(publicKeyOptions.user.id);
+      
       const credential = await navigator.credentials.create({
         publicKey: publicKeyOptions,
-      })
-
-      // 3. Send the obtained credential to the server for verification
+      });
+      
+      // Verify the credential on the server
       const verifyRes = await axios.post('http://localhost:3001/api/auth/register-verify', {
         email,
         credential,
-      })
-
+      });
+      
       if (verifyRes.data.success) {
-        setMessage('Registration succeeded! You can now log in with Face ID.')
+        setMessage('Registration succeeded! Redirecting...');
+        // Save an auth flag/user info so that Home page won't redirect to /auth
+        localStorage.setItem("user", "true");
+        navigate("/intro", { replace: true });
       } else {
-        setError('Registration failed.')
+        setError('Registration failed.');
       }
     } catch (err: any) {
-      console.error(err)
-      setError('Registration Error: ' + err.message)
+      console.error("Registration Error:", err);
+      setError(`Registration Error: ${err.message}`);
     }
   }
 
   // Face ID Login flow
   const handleLogin = async () => {
     try {
+      setError('')
+      setMessage('')
       await login()
-    } catch (error) {
-      console.error("Login error:", error)
+    } catch (err: any) {
+      console.error("Login error:", err);
+      setError("Login error: " + err.message);
     }
   }
 

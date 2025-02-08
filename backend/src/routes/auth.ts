@@ -20,31 +20,33 @@ function toBase64Url(buffer: ArrayBuffer): string {
 
 // POST /api/auth/register-challenge
 router.post("/register-challenge", (req: Request, res: Response) => {
-  const dummyChallenge = "dummy-challenge";
-  const challengeBuffer = new TextEncoder().encode(dummyChallenge).buffer;
+  try {
+    const dummyChallenge = "dummy-challenge";
+    const challengeBuffer = new TextEncoder().encode(dummyChallenge).buffer;
+    const challengeBase64 = toBase64Url(challengeBuffer);
 
-  // エンコードして Base64 URL形式の文字列として送信
-  const challengeBase64 = toBase64Url(challengeBuffer);
+    const publicKeyCredentialCreationOptions = {
+      challenge: challengeBase64,
+      rp: {
+        name: "Agentic",
+        id: "localhost"
+      },
+      user: {
+        // If your backend expects an email or user info, make sure these values are received correctly.
+        id: toBase64Url(new TextEncoder().encode("dummy-user-id").buffer),
+        name: "user@example.com",
+        displayName: "User Example"
+      },
+      pubKeyCredParams: [{ type: "public-key", alg: -7 }],
+      timeout: 60000,
+      attestation: "direct"
+    };
 
-  const publicKeyCredentialCreationOptions = {
-    // challenge には base64 エンコードされた文字列をセット（クライアント側でデコードする）
-    challenge: challengeBase64,
-    rp: {
-      name: "Agentic",
-      id: "localhost"
-    },
-    user: {
-      // ユーザーIDも同様に Base64 エンコードするほうが一般的です
-      id: toBase64Url(new TextEncoder().encode("dummy-user-id").buffer),
-      name: "user@example.com",
-      displayName: "User Example"
-    },
-    pubKeyCredParams: [{ type: "public-key", alg: -7 }], // ES256
-    timeout: 60000,
-    attestation: "direct"
-  };
-
-  res.json({ publicKeyCredentialCreationOptions });
+    res.json({ publicKeyCredentialCreationOptions });
+  } catch (error) {
+    console.error("Error in register-challenge:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
 });
 
 // POST /api/auth/register-verify
