@@ -1,24 +1,23 @@
-import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Intro from "./Intro";
 import Auth from "./Auth";
 import Home from "./Home";
+import { PrivyProvider } from "@privy-io/react-auth";
 
 function App() {
-  console.log("App rendered");
+	console.log("App rendered");
 
-  return (
-	<Router>
-	  <Routes>
-		{/* イントロページ */}
-		<Route path="/" element={<Intro />} />
-		{/* WebAuthn 登録・ログイン画面 */}
-		<Route path="/auth" element={<Auth />} />
-		{/* ログイン後のダッシュボード */}
-		<Route path="/home" element={<Home />} />
-	  </Routes>
-	</Router>
-  );
+	return (
+		<PrivyProvider appId="cm6t6svwm063qgvcrv656hbxp">
+			<Router>
+				<Routes>
+					<Route path="/" element={<Intro />} />
+					<Route path="/auth" element={<Auth />} />
+					<Route path="/home" element={<Home />} />
+				</Routes>
+			</Router>
+		</PrivyProvider>
+	);
 }
 
 export default App;
