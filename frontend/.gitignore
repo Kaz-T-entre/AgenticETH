@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# 以下のような内容が含まれていることを確認
+node_modules/
+.env
+.env.local
+build/
+dist/
