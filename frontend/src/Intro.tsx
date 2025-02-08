@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { usePrivy } from "@privy-io/react-auth";
-import { useEffect } from "react";
-import { usePrivy } from "@privy-io/react-auth";
 import ImgIntroLogo from "./assets/images/intro-logo.png";
 import ImgIntroTitle from "./assets/images/intro-title.png";
 
