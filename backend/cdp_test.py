@@ -1,34 +1,52 @@
-from cdp_langchain.agent_toolkits import CdpToolkit
-from cdp_langchain.utils import CdpAgentkitWrapper
+from langchain_openai import OpenAI
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
+from langchain.output_parsers import BooleanOutputParser
 import env_vars
 
-# Initialize CDP wrapper
-cdp = CdpAgentkitWrapper()
-
-# Create toolkit from wrapper
-toolkit = CdpToolkit.from_cdp_agentkit_wrapper(cdp)
-
-# Get available tools
-tools = toolkit.get_tools()
-for tool in tools:
-    print(tool.name)
-from langchain_openai import ChatOpenAI  # Change import to OpenAI
-from langchain_anthropic import ChatAnthropic  # Change import to Anthropic
-from langgraph.prebuilt import create_react_agent
-
 # Initialize LLM
-llm = ChatOpenAI(model="gpt-4o-mini")  # Change model to OpenAI's model
+llm = OpenAI(model="gpt-4o-mini")
 
-# Get tools and create agent
-tools = toolkit.get_tools()
-agent_executor = create_react_agent(llm, tools)
+# Initialize BooleanOutputParser
+parser = BooleanOutputParser(true_val="true", false_val="false")
 
-# Example usage
-prompt = "Send 100 USD to john2879.base.eth"
-events = agent_executor.stream(
-    {"messages": [("user", prompt)]},
-    stream_mode="values"
+# Function to read file content
+def read_file(file_path):
+    with open(file_path, 'r') as file:
+        return file.read()
+
+# Read transaction history and blacklist
+transaction_history = read_file('./tx_history.txt')
+blacklist = read_file('./blacklist.txt')
+
+# Define the prompt template
+prompt_template = PromptTemplate(
+    input_variables=["transaction_history", "blacklist"],
+    template="""
+    Check if the following transaction is suspicious based on the blacklist:
+    Transaction History:
+    {transaction_history}
+
+    Blacklist:
+    {blacklist}
+
+    Respond with 'true' if any transaction is suspicious, otherwise respond with 'false'.
+    Please respond with only 'true' or 'false'.
+    """
 )
 
-for event in events:
-    event["messages"][-1].pretty_print()
+# Create the chain
+chain = LLMChain(llm=llm, prompt=prompt_template, output_parser=parser)
+
+# Generate the response
+response = chain.run({
+    "transaction_history": transaction_history,
+    "blacklist": blacklist
+})
+
+# Ensure output is 'true' or 'false'
+try:
+    parsed_response = parser.parse(response)
+    print("true" if parsed_response else "false")
+except ValueError:
+    print("false")  # Default to 'false' if parsing fails

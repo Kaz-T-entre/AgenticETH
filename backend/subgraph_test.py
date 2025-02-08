@@ -17,6 +17,7 @@ data = {
             totalVolumeUSD
             txCount
         }}
+        
     }}
     """,
     "operationName": "Subgraphs",

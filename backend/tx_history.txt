@@ -1,0 +1,168 @@
+]11;?\[6n[?25l[?2004hConnecting...
+
+
+[D[2K[A[2K[A[2K[A[D[2KConnected (trace ID )
+Progress messages received: 0 (0/sec)
+Backprocessing history up to requested target block 17712038:
+(hit 'm' to switch mode)
+
+
+
+
+
+[D[A[A[A[A[A[A[A[A[A[D[2KConnected (trace ID 19a57be2643eef95bd43b8c7e4f1b9b4)
+[B[B[B[B[B[B[B[B[D----------- BLOCK #17,712,038 (b96fc7e71c0daf69b19211c45fbb5c201f4356fb2b5607500b7d88d298599f5b) age=13731h1m7.080699769s ---------------
+[2K[?2004l[?25h[?1002l[?1003l[?1006l[2K[?2004l[?25h[?1002l[?1003l[?1006l[1m{[0m
+  [1m[94m"@module"[0m[1m:[0m [32m"map_filter_transactions"[0m[1m,[0m
+  [1m[94m"@block"[0m[1m:[0m [33m17712038[0m[1m,[0m
+  [1m[94m"@type"[0m[1m:[0m [32m"eth.transaction.v1.Transactions"[0m[1m,[0m
+  [1m[94m"@data"[0m[1m:[0m [1m{[0m
+    [1m[94m"transactions"[0m[1m:[0m [1m[[0m
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"b6692f7ae54e89da0269c1bfd685ccdfd41d2bf7"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"933b74565234ac9ca8389f7a49fad80099abf1be77e4bef5af69ade30127f30e"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"0543ba40d4b8b33dc5f7d163f41c6dc54cf1d923"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"51071d7a94fc6ecfec2aba477c26ff5098db3e36a287d43d13b763b3118b160b"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"09e52cbb57dce8cd2836effc44686b6008a84914"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"806ef36a1e022d52d00a288bc150676af0cb2bad6b5500378c8fc7253a0434fa"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"2f13d388b85e0ecd32e7c3d7f36d1053354ef104"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"0a9a5707b5d4047b1e44de9283f0c88606eac49b4eb132a61df0dffc20668ad0"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"4fac9d83ffad797072db8bd72cc544ad5ec45e4f"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"8466f371eed9b742a2ed869213dde10661e3df22366e258e09f68e37ca47b2c1"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"48c04ed5691981c42154c6167398f95e8f38a7ff"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"571670afd47e29fe901c1b17ed21fca6088cc9540efd684c5b7b4c1c1e748612"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"4c8e30406f5dbedfaa18cb6b9d0484cd5390490a"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"558031630b43c8c61e36d742a779f967f3f0102fa290111f6f6f9c2acaadf3ea"[0m
+      [1m}[0m
+    [1m][0m
+  [1m}[0m
+[1m}[0m
+
+----------- BLOCK #17,712,039 (1385f853d28b16ad7ebc5d51b6f2ef6d43df4b57bd4c6fe4ef8ccb6f266d8b91) age=13731h0m55.091461545s ---------------
+[1m{[0m
+  [1m[94m"@module"[0m[1m:[0m [32m"map_filter_transactions"[0m[1m,[0m
+  [1m[94m"@block"[0m[1m:[0m [33m17712039[0m[1m,[0m
+  [1m[94m"@type"[0m[1m:[0m [32m"eth.transaction.v1.Transactions"[0m[1m,[0m
+  [1m[94m"@data"[0m[1m:[0m [1m{[0m
+    [1m[94m"transactions"[0m[1m:[0m [1m[[0m
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"75e89d5979e4f6fba9f97c104c2f0afb3f1dcb88"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"43e0e1b6315c4cc1608d876f98c9bbf09f2a25404aabaeac045b5cc852df0e85"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"75e89d5979e4f6fba9f97c104c2f0afb3f1dcb88"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"619d94c33b027df694cbf32659aae51743623b4d1cb11c69d7d0e95cad63b712"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"75e89d5979e4f6fba9f97c104c2f0afb3f1dcb88"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"027cccdba1a127bcfb5bb39b5d89e3552e83c8c3c6dd13cf779d7720241e71b9"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"3d1d8a1d418220fd53c18744d44c182c46f47468"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"762350dcf3ab62ad515331436ce952ba5b3641bbf87c7d56c1e8a9f21473875c"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"a45c27ef3df487525b33a70cb0020de792dc7a3f"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"b9e08dfe7b1f4971ea96d1424c32548028bdeb62b2ee7f6775dd55d05c4d4ad6"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"9696f59e4d72e237be84ffd425dcad154bf96976"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"44f36363290969d8b581bb9a856bc9f2ca9a64e4a12e4db054927a45795480fa"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"e074f1967080cd7b9352c8cbe2d1d9cd121d4daf"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"8795aa5088fb13a21048c592316ad7da850a8f80f3ce417bc4d7d2bbeca3f596"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"fb8131c260749c7835a08ccbdb64728de432858e"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"0a907108aecaf909452f7035070a28f9cad6c51896763e760ea1f544a9b9edf3"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"e41febca31f997718d2ddf6b21b9710c5c7a3425"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"45c03fcbefcce9920806dcd7d638cef262ad405f8beae383fbc2695ad4bc9b1b"[0m
+      [1m}[0m
+    [1m][0m
+  [1m}[0m
+[1m}[0m
+
+----------- BLOCK #17,712,040 (31ad07fed936990d3c75314589b15cbdec91e4cc53a984a43de622b314c38d0b) age=13731h0m43.096136515s ---------------
+[1m{[0m
+  [1m[94m"@module"[0m[1m:[0m [32m"map_filter_transactions"[0m[1m,[0m
+  [1m[94m"@block"[0m[1m:[0m [33m17712040[0m[1m,[0m
+  [1m[94m"@type"[0m[1m:[0m [32m"eth.transaction.v1.Transactions"[0m[1m,[0m
+  [1m[94m"@data"[0m[1m:[0m [1m{[0m
+    [1m[94m"transactions"[0m[1m:[0m [1m[[0m
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"48c04ed5691981c42154c6167398f95e8f38a7ff"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"137799eea9fa8ae410c913e16ebc5cc8a01352a638f3ce6f3f29a283ad918987"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"7c0a7899f69a7034325ffee90355906cf72aeebb"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"132fc93b8a155c614001665a40381c8de9ad7519034352628c075e17a06d884b"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"180277c2f8bd489a4e27e261c6fbca079b6fa58f"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"06e74e08b51a0c03219c3aa12a871595516c1d466611ed848ea2ae8cbfb083ea"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"1440ec793ae50fa046b95bfeca5af475b6003f9e"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"83862ea45a6f777acd81a3469c54e347d3eb527cbee9fb673c6e312f7ae6fb83"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"89e51fa8ca5d66cd220baed62ed01e8951aa7c40"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"1b9e5059181ca90969ee423beea3073cf99faf8a91b73890303531ebd6c197ec"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"89e51fa8ca5d66cd220baed62ed01e8951aa7c40"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"ca1750068bee961ccd2e45679c9d9dadc5ba93fd3212c0f31361d39abe3ed36c"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"82cbcb64a2eb51622fb847c9c957fdac532712ac"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"284b6359cf66a010798738bb764f5cd015658e8f59273a49e19a855731f22bb8"[0m
+      [1m}[0m,
+      [1m{[0m
+        [1m[94m"from"[0m[1m:[0m [32m"f89d7b9c864f589bbf53a82105107622b35eaa40"[0m[1m,[0m
+        [1m[94m"to"[0m[1m:[0m [32m"dac17f958d2ee523a2206206994597c13d831ec7"[0m[1m,[0m
+        [1m[94m"hash"[0m[1m:[0m [32m"0544143b459969c9ed36741533fba70d6ea7069f156d2019d5362c06bf8d887f"[0m
+      [1m}[0m
+    [1m][0m
+  [1m}[0m
+[1m}[0m
+
+Total Read Bytes (server-side consumption): 4870008
+all done
