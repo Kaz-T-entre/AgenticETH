@@ -1,2 +1,7 @@
 backend/env_vars.py
 backend/__pycache__
+
+
+# Added by cargo
+
+/target
