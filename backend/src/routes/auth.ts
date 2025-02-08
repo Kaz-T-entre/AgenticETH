@@ -1,205 +1,93 @@
-import express from 'express';
-import crypto from 'crypto';
-import {
-  generateAuthenticationOptions,
-  generateRegistrationOptions,
-  verifyAuthenticationResponse,
-  verifyRegistrationResponse,
-} from '@simplewebauthn/server';
-import { isoBase64URL } from '@simplewebauthn/server/helpers';
-import type {
-  AuthenticationResponseJSON,
-  RegistrationResponseJSON,
-} from '@simplewebauthn/typescript-types';
-import { User } from '../models/User';
-import { generateToken } from '../utils/auth';
-import type { Request, Response } from 'express';
-import type { Session } from 'express-session';
+import { Router, Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
-const router = express.Router();
+dotenv.config();
+const secretKey = process.env.SECRET_KEY || "your-secret-key"; // 環境変数から取得、存在しない場合はデフォルト値
 
-declare module 'express-session' {
-  interface SessionData {
-    currentChallenge?: string;
-    userId?: string;
-  }
+const router = Router();
+
+// Base64 URLエンコード関数
+function toBase64Url(buffer: ArrayBuffer): string {
+  const uint8Array = new Uint8Array(buffer);
+  let str = "";
+  uint8Array.forEach(byte => str += String.fromCharCode(byte));
+  // traditional base64
+  let base64 = Buffer.from(str, "binary").toString("base64");
+  // make URL safe
+  return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
-interface AuthRequest extends Request {
-  session: Session & {
-    currentChallenge?: string;
-    userId?: string;
+// POST /api/auth/register-challenge
+router.post("/register-challenge", (req: Request, res: Response) => {
+  const dummyChallenge = "dummy-challenge";
+  const challengeBuffer = new TextEncoder().encode(dummyChallenge).buffer;
+
+  // エンコードして Base64 URL形式の文字列として送信
+  const challengeBase64 = toBase64Url(challengeBuffer);
+
+  const publicKeyCredentialCreationOptions = {
+    // challenge には base64 エンコードされた文字列をセット（クライアント側でデコードする）
+    challenge: challengeBase64,
+    rp: {
+      name: "Agentic",
+      id: "localhost"
+    },
+    user: {
+      // ユーザーIDも同様に Base64 エンコードするほうが一般的です
+      id: toBase64Url(new TextEncoder().encode("dummy-user-id").buffer),
+      name: "user@example.com",
+      displayName: "User Example"
+    },
+    pubKeyCredParams: [{ type: "public-key", alg: -7 }], // ES256
+    timeout: 60000,
+    attestation: "direct"
   };
-}
 
-/**
- * 「void | Promise<void>」のみ許容するハンドラ型
- * 通常の Express RequestHandler は戻り値に特に制限はありませんが、
- * あなたのプロジェクトで「必ず Promise<void> にしたい」のであればこう書きます
- */
-type AuthRequestHandler = (
-  req: AuthRequest,
-  res: Response,
-) => Promise<void>;
+  res.json({ publicKeyCredentialCreationOptions });
+});
 
-// WebAuthn関連の設定
-const rpName = 'Magic Wallet';
-const rpID = process.env.NODE_ENV === 'production' 
-  ? 'your-domain.com' 
-  : 'localhost';
+// POST /api/auth/register-verify
+router.post("/register-verify", (req: Request, res: Response) => {
+  // 本来は req.body.credential の検証を行いますが、ここではダミー実装
+  const token = jwt.sign({ user: "dummy-user" }, secretKey, { expiresIn: "1h" });
+  res.json({ success: true, token });
+});
 
-/**
- * 1. 登録チャレンジ生成 (User Registration)
- */
-const registerChallenge: AuthRequestHandler = async (req, res) => {
-  try {
-    const userIdBuffer = crypto.randomBytes(16);
+// POST /api/auth/login-challenge
+router.post("/login-challenge", (req: Request, res: Response) => {
+  // WebAuthn ログイン用のチャレンジ（ダミーデータ）
+  const publicKeyCredentialRequestOptions = {
+    challenge: "dummy-challenge",
+    timeout: 60000,
+    rpId: "localhost",
+    allowCredentials: [{ id: "dummy-credential-id", type: "public-key" }],
+    userVerification: "preferred"
+  };
 
-    const options = await generateRegistrationOptions({
-      rpName,
-      rpID,
-      userID: userIdBuffer,
-      userName: 'user@example.com',
-      attestationType: 'none',
-      authenticatorSelection: {
-        authenticatorAttachment: 'platform',
-        userVerification: 'required',
-        residentKey: 'preferred',
-      },
-    });
+  res.json({ publicKeyCredentialRequestOptions });
+});
 
-    req.session.currentChallenge = options.challenge;
-    req.session.userId = userIdBuffer.toString('base64');
-    await req.session.save();
+// POST /api/auth/login-verify
+router.post("/login-verify", (req: Request, res: Response) => {
+  // 本来は req.body.credential の検証を行いますが、ここではダミー実装
+  const token = jwt.sign({ user: "dummy-user" }, secretKey, { expiresIn: "1h" });
+  res.json({ success: true, token });
+});
 
-    // res.json(...) を呼んでも return はしない
-    res.json({ challenge: options.challenge });
-    // 「関数を終わる」ときは戻り値を何も指定せず `return;`
-    return;
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to generate registration challenge' });
-    return; // ここでも関数を終了
-  }
-};
-
-/**
- * 2. 登録の検証 (Register Verify)
- */
-const registerVerify: AuthRequestHandler = async (req, res) => {
-  try {
-    const responseCred = req.body.credential as RegistrationResponseJSON;
-
-    if (!req.session.currentChallenge || !req.session.userId) {
-      res.status(400).json({ error: 'Session data missing' });
-      return;
-    }
-
-    const verification = await verifyRegistrationResponse({
-      response: responseCred,
-      expectedChallenge: req.session.currentChallenge,
-      expectedOrigin: `https://${rpID}`,
-      expectedRPID: rpID,
-    });
-
-    const { verified, registrationInfo } = verification;
-    if (!verified || !registrationInfo) {
-      res.status(400).json({ error: 'Verification failed' });
-      return;
-    }
-
-    const { credential: verifiedCred } = registrationInfo;
-    const credentialIDBase64 = Buffer.from(verifiedCred.id).toString('base64');
-    const credentialPubKeyBase64 = Buffer.from(verifiedCred.publicKey).toString('base64');
-
-    const user = await User.create({
-      id: req.session.userId,
-      credentials: [
-        {
-          credentialID: credentialIDBase64,
-          publicKey: credentialPubKeyBase64,
-          counter: 0,
-        },
-      ],
-    });
-
-    const token = generateToken(user.id);
-    res.json({ token });
-    return;
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Registration verification failed' });
+// GET /api/auth/verify
+router.get("/verify", (req: Request, res: Response, next: NextFunction): void => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    res.status(401).json({ success: false, message: "No token provided" });
     return;
   }
-};
-
-/**
- * 3. ログインチャレンジの生成 (Login Challenge)
- */
-const loginChallenge: AuthRequestHandler = async (req, res) => {
-  try {
-    const options = await generateAuthenticationOptions({
-      rpID,
-      userVerification: 'required',
-      allowCredentials: [],
-    });
-
-    req.session.currentChallenge = options.challenge;
-    await req.session.save();
-
-    res.json({ challenge: options.challenge });
-    return;
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to generate login challenge' });
-    return;
-  }
-};
-
-/**
- * 4. ログインの検証 (Login Verify)
- */
-const loginVerify: AuthRequestHandler = async (req, res) => {
-  try {
-    const responseCred = req.body.credential as AuthenticationResponseJSON;
-
-    const user = await User.findByCredentialID(responseCred.id);
-    if (!user || !req.session.currentChallenge) {
-      res.status(400).json({ error: 'Verification failed' });
-      return;
-    }
-
-    const verification = await verifyAuthenticationResponse({
-      response: responseCred,
-      expectedChallenge: req.session.currentChallenge,
-      // ここは ENV に合わせて
-      expectedOrigin: process.env.ORIGIN || 'http://localhost:5173',
-      expectedRPID: process.env.RPID || 'localhost',
-      credential: {
-        id: responseCred.id,
-        publicKey: isoBase64URL.toBuffer(user.credentials[0].publicKey),
-        counter: user.credentials[0].counter,
-      }
-    });
-
-    if (!verification.verified) {
-      res.status(400).json({ error: 'Verification failed' });
-      return;
-    }
-    // verified = true
-    res.json({ success: true, token: 'mock-token' });
-    return;
-  } catch (error) {
-    console.error(error);
-    res.status(400).json({ error: 'Verification failed' });
-    return;
-  }
-};
-
-// ルート登録
-router.post('/register-challenge', registerChallenge);
-router.post('/register-verify', registerVerify);
-router.post('/login-challenge', loginChallenge);
-router.post('/login-verify', loginVerify);
+  
+  const token = authHeader.split(" ")[1];
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) return res.status(401).json({ success: false, message: "Invalid token" });
+    res.json({ success: true, user: decoded });
+  });
+});
 
 export default router;

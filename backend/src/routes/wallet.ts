@@ -1,44 +1,69 @@
-import * as express from 'express';
-import { ethers } from 'ethers';
-import { authenticateToken } from '../middleware/auth';
-import { PrivyClient, Quantity } from '@privy-io/server-auth';
-import { AuthRequest } from '../middleware/auth';
+import { Router, Request, Response } from "express";
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
-const router = express.Router();
+dotenv.config();
+const secretKey = process.env.SECRET_KEY || "your-secret-key";
 
-// PrivyClient の初期化（authorizationPrivateKey を設定する）
-const privy = new PrivyClient(
-  process.env.PRIVY_API_KEY || '',
-  process.env.PRIVY_API_SECRET || '',
-  {
-    walletApi: {
-      authorizationPrivateKey: process.env.PRIVY_AUTHORIZATION_PRIVATE_KEY || ''
-    }
+const router = Router();
+
+// ダミーウォレットデータ
+const walletData = {
+  walletId: "wallet_123456",
+  address: "0xABCDEF1234567890ABCDEF1234567890ABCDEF12",
+  balance: "1000",
+  balanceUSD: "1000"
+};
+
+// GET /api/wallet/info
+router.get("/info", (req: Request, res: Response) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    res.status(401).json({ success: false, message: "No token provided" });
+    return;
   }
-);
-
-const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
-
-// トランザクション送信の例
-router.post('/send', authenticateToken, async (req: AuthRequest, res: express.Response) => {
+  const token = authHeader.split(" ")[1];
   try {
-    const { userId } = req.user as { userId: string };
-    const { to, amount } = req.body;
-
-    // ethers.parseEther(amount) の結果（bigint）を ethers.hexlify で変換して渡す
-    const tx = await privy.walletApi.ethereum.sendTransaction({
-      transaction: {
-        to,
-        value: ("0x" + ethers.parseEther(amount).toString(16)) as unknown as Quantity
-      },
-      caip2: `eip155:${process.env.CHAIN_ID}`,
-      walletId: userId
-    });
-
-    res.json({ transaction: tx });
-  } catch (error: any) {
-    res.status(500).json({ error: error.message || 'Transaction failed' });
+    jwt.verify(token, secretKey);
+    // ダミーのウォレット情報
+    const wallet = {
+      walletId: "wallet-1234",
+      address: "0xABCDEF0123456789",
+      balance: "1.234 ETH",
+    };
+    res.json({ success: true, wallet });
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Invalid token" });
   }
+});
+
+// POST /api/wallet/send
+router.post("/send", (req: Request, res: Response) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    res.status(401).json({ success: false, message: "No token provided" });
+    return;
+  }
+  const token = authHeader.split(" ")[1];
+  try {
+    jwt.verify(token, secretKey);
+    const { to, amount } = req.body;
+    // ここで実際の送金処理を行う (今回はダミー実装)
+    const txHash = "0xMOCKTRANSACTIONHASH";
+    res.json({ success: true, txHash });
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Invalid token" });
+  }
+});
+
+// GET /api/wallet/history
+router.get("/history", (req: Request, res: Response) => {
+  // ダミーのトランザクション履歴
+  const history = [
+    { txHash: "0x1234abcd", to: "0x1111111111111111111111111111111111111111", amount: "50", date: new Date() },
+    { txHash: "0x5678efgh", to: "0x2222222222222222222222222222222222222222", amount: "75", date: new Date() }
+  ];
+  res.json({ history });
 });
 
 export default router;
