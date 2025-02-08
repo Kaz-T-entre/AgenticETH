@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import ImgChainBase from "./assets/images/chain-base.png";
-import ImgBank from "./assets/images/i-bank.png";
-import ImgArrow from "./assets/images/i-arrow.png";
-import ImgBuy from "./assets/images/i-buy.png";
-import ImgSend from "./assets/images/i-send.png";
-import ImgReceive from "./assets/images/i-receive.png";
+import { usePrivy } from "@privy-io/react-auth"
+import ImgAvatar from "./assets/images/chain-base.png";
+import ImgBuy from "./assets/images/chain-base.png";
+import ImgSend from "./assets/images/chain-base.png";
+import ImgReceive from "./assets/images/chain-base.png";
 
 function Home() {
   const navigate = useNavigate()
+  const { ready, authenticated } = usePrivy()
   const [isHelp, setIsHelp] = useState(false)
   const [walletId, setWalletId] = useState('')
   const [address, setAddress] = useState('')
@@ -18,32 +18,32 @@ function Home() {
   const [totalAssetUSD, setTotalAssetUSD] = useState("5,038")
 
   useEffect(() => {
-    // JWT の存在確認 (未ログインの場合は Auth 画面へ)
-    const token = localStorage.getItem('token')
-    if (!token) {
-      navigate('/auth')
-      return
+    if (ready && !authenticated) {
+      navigate("/auth", { replace: true })
     }
 
     // サーバーからウォレット情報を取得
-    axios
-      .get('http://localhost:3001/api/wallet/info', {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        const w = res.data.wallet
-        setWalletId(w.walletId)
-        setAddress(w.address)
-        setBalance(w.balance)
-        if (w.balanceUSD) {
-          setTotalAssetUSD(w.balanceUSD)
-        }
-      })
-      .catch((err) => {
-        console.error(err)
-        setError('ウォレット情報の取得に失敗しました。')
-      })
-  }, [navigate])
+    const token = localStorage.getItem('token')
+    if (token) {
+      axios
+        .get('http://localhost:3001/api/wallet/info', {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          const w = res.data.wallet
+          setWalletId(w.walletId)
+          setAddress(w.address)
+          setBalance(w.balance)
+          if (w.balanceUSD) {
+            setTotalAssetUSD(w.balanceUSD)
+          }
+        })
+        .catch((err) => {
+          console.error(err)
+          setError('ウォレット情報の取得に失敗しました。')
+        })
+    }
+  }, [ready, authenticated, navigate])
 
   const typeHelp = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
@@ -88,40 +88,43 @@ function Home() {
   }
 
   return (
-    <div style={{ margin: "2rem" }}>
-      <h2>Home / Dashboard</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <div className="center-container start-center">
+      <div className="centered-box">
+        <div className="flex flex-col items-center">
+          <img src={ImgAvatar} className="avatar-box" alt="Avatar" />
+          <p className="lbl-total-asset">Total Asset</p>
+          <p className="val-total-asset">$1,000</p>
+        </div>
 
-      <div style={{ marginBottom: "1rem" }}>
-        <strong>Wallet ID:</strong> {walletId}
-      </div>
-      <div style={{ marginBottom: "1rem" }}>
-        <strong>Address:</strong> {address}
-      </div>
-      <div style={{ marginBottom: "1rem" }}>
-        <strong>Balance:</strong> {balance}
-      </div>
-
-      <button onClick={handleSendTransaction}>0.01 ETH を送る</button>
-
-      {/* 以下はその他のUI（quick menu など）の例 */}
-      <div className="quick-menu mt-8">
-        <h2 className="quick-title mb-2">Quick Menu</h2>
-        <div className="grid grid-cols-2 gap-x-5 gap-y-3">
-          <div className="quick-box p-2 cursor-pointer" onClick={handleBuyAssets}>
-            <img src={ImgBuy} className="img-buy" alt="Buy" />
-            <h3 className="quick-name">Buy Assets</h3>
-            <p className="quick-desc">Buy Crypto/NFTs within a single step.</p>
+        <div className="mt-8">
+          <div className="box-asset flex items-center justify-between mb-4">
+            <div className="flex items-center gap-4">
+              <img src={ImgBuy} className="img-asset" alt="Buy" />
+              <div>
+                <p className="name-asset">Buy</p>
+                <p className="addr-asset">Buy crypto with card</p>
+              </div>
+            </div>
           </div>
-          <div className="quick-box p-2 cursor-pointer" onClick={handleSendTransaction}>
-            <img src={ImgSend} className="img-send" alt="Send" />
-            <h3 className="quick-name">Send Assets</h3>
-            <p className="quick-desc">Send your Crypto/NFTs in minutes. No Gas-fees.</p>
+
+          <div className="box-asset flex items-center justify-between mb-4">
+            <div className="flex items-center gap-4">
+              <img src={ImgSend} className="img-asset" alt="Send" />
+              <div>
+                <p className="name-asset">Send</p>
+                <p className="addr-asset">Send to other wallet</p>
+              </div>
+            </div>
           </div>
-          <div className="quick-box p-2 cursor-pointer" onClick={handleReceiveAssets}>
-            <img src={ImgReceive} className="img-receive" alt="Receive" />
-            <h3 className="quick-name">Receive Assets</h3>
-            <p className="quick-desc">Get Crypto/NFTs within a single step.</p>
+
+          <div className="box-asset flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <img src={ImgReceive} className="img-asset" alt="Receive" />
+              <div>
+                <p className="name-asset">Receive</p>
+                <p className="addr-asset">Receive from other wallet</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
