@@ -32,12 +32,9 @@ print(tools)
 web3 = Web3(Web3.HTTPProvider(os.getenv('WEB3_PROVIDER_URL')))
 
 def fetch_on_chain_data(address):
-    url = f"https://api.covalenthq.com/v1/1/address/{address}/transactions_v2/"
-    params = {
-        'key': os.getenv('COVALENT_API_KEY')
-    }
-    response = requests.get(url, params=params)
-    return response.json()
+    covalent = Covalent(api_key=os.getenv('COVALENT_API_KEY'))
+    response = covalent.get_transactions(address)
+    return response
 
 def detect_fraud(transactions):
     suspicious_transactions = []
@@ -46,6 +43,14 @@ def detect_fraud(transactions):
         if tx['value'] > 1000000000000000000:  # 1 ETH in Wei
             suspicious_transactions.append(tx)
     return suspicious_transactions
+
+def get_coinbase_wallet_info(wallet_id):
+    url = f"https://api.coinbase.com/v2/accounts/{wallet_id}"
+    headers = {
+        'Authorization': f'Bearer {os.getenv("COINBASE_API_KEY")}'
+    }
+    response = requests.get(url, headers=headers)
+    return response.json()
 
 @app.route('/api/send-token', methods=['POST'])
 def send_token():
@@ -93,6 +98,16 @@ def fraud_detection():
     suspicious_transactions = detect_fraud(on_chain_data['data']['items'])
     
     return jsonify({"suspicious_transactions": suspicious_transactions})
+
+@app.route('/api/coinbase-wallet-info', methods=['POST'])
+def coinbase_wallet_info():
+    data = request.get_json()
+    wallet_id = data['wallet_id']
+    
+    # Get wallet info from Coinbase API
+    wallet_info = get_coinbase_wallet_info(wallet_id)
+    
+    return jsonify({"wallet_info": wallet_info})
 
 if __name__ == '__main__':
     app.run(debug=True)
