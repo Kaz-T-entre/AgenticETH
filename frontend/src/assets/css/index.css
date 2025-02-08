@@ -189,3 +189,80 @@ body {
 	width: 23px;
 	height: 24px;
 }
+
+/* Auth Page Styles */
+.signup-title {
+	text-align: center;
+	font-size: 24px;
+	font-weight: 700;
+	margin-bottom: 16px;
+	color: #000000;
+}
+
+.img-face-id {
+	display: block;
+	margin: 0 auto 16px;
+	width: 150px;
+	height: auto;
+}
+
+.btn-face-id {
+	display: block;
+	width: 100%;
+	max-width: 300px;
+	margin: 0 auto;
+	padding: 12px 0;
+	border: none;
+	border-radius: 30px;
+	background-color: #000000;
+	color: #ffffff;
+	font-size: 18px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.btn-face-id:hover {
+	background-color: #333333;
+}
+
+/* Intro Page Styles */
+.img-intro-logo {
+	display: block;
+	margin: 0 auto;
+	max-width: 200px;
+}
+
+.img-intro-title {
+	display: block;
+	margin: 16px auto 0;
+	max-width: 250px;
+}
+
+.intro-desc {
+	text-align: center;
+	font-size: 18px;
+	line-height: 1.5;
+	color: #555555;
+	margin-top: 16px;
+}
+
+.btn-intro {
+	display: block;
+	width: 100%;
+	max-width: 300px;
+	margin: 24px auto 0;
+	padding: 12px 0;
+	border: none;
+	border-radius: 30px;
+	background-color: #000000;
+	color: #ffffff;
+	font-size: 18px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.btn-intro:hover {
+	background-color: #333333;
+}
