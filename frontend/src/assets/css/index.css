@@ -200,3 +200,21 @@ body {
 .chat .help-button img {
 	height: 23px;
 }
+.btn-add-crypto {
+	display: block;
+	font-family: Nunito;
+	font-weight: 700;
+	font-size: 24px;
+	line-height: 22px;
+	color: #fe62d7;
+	cursor: pointer;
+}
+.btn-skip-now {
+	display: block;
+	font-family: Nunito;
+	font-weight: 700;
+	font-size: 24px;
+	line-height: 22px;
+	color: #bbbbbb;
+	cursor: pointer;
+}

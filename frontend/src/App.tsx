@@ -5,6 +5,7 @@ import Intro from "./Intro";
 import Auth from "./Auth";
 import Home from "./Home";
 import Chat from "./Chat";
+import Onramp from "./Onramp";
 
 function App() {
 	return (
@@ -16,6 +17,7 @@ function App() {
 					<Route path="/intro" element={<Intro />} />
 					<Route path="/home" element={<Home />} />
 					<Route path="/chat" element={<Chat />} />
+					<Route path="/onramp" element={<Onramp />} />
 					{/* Fallback route: redirect to the auth page */}
 					<Route path="*" element={<Navigate to="/auth" replace />} />
 				</Routes>
