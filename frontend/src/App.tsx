@@ -4,6 +4,7 @@ import { PrivyProvider } from "@privy-io/react-auth";
 import Intro from "./Intro";
 import Auth from "./Auth";
 import Home from "./Home";
+import Chat from "./Chat";
 
 function App() {
 	return (
@@ -14,6 +15,7 @@ function App() {
 					<Route path="/auth" element={<Auth />} />
 					<Route path="/intro" element={<Intro />} />
 					<Route path="/home" element={<Home />} />
+					<Route path="/chat" element={<Chat />} />
 					{/* Fallback route: redirect to the auth page */}
 					<Route path="*" element={<Navigate to="/auth" replace />} />
 				</Routes>
