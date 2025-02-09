@@ -1,6 +1,8 @@
 import { Router, Request, Response } from "express";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import express from 'express';
+import axios from 'axios';
 
 dotenv.config();
 const secretKey = process.env.SECRET_KEY || "your-secret-key";
@@ -64,6 +66,41 @@ router.get("/history", (req: Request, res: Response) => {
     { txHash: "0x5678efgh", to: "0x2222222222222222222222222222222222222222", amount: "75", date: new Date() }
   ];
   res.json({ history });
+});
+
+// 環境変数からキーを取得（もしくはデフォルト値）
+const PRIVY_API_KEY = process.env.PRIVY_API_KEY || "cm6t6svwm063qgvcrv656hbxp";
+const PRIVY_SECRET_KEY = process.env.PRIVY_SECRET_KEY || "3pdxCWYaKLmA9TQc6so6WVkBwxueQ1Q3hsteJN2nC7cyPsxTGKYgDgy3Qc3y3Bm8WMQKFqEaPPRNQAgEiigb2vo7";
+
+const getAuthSignature = (data: string): string => {
+  // 実際には Privy の仕様に則った署名生成処理を書く必要がありますが、
+  // ここではダミー署名として "dummy-signature" を返します。
+  return "dummy-signature";
+};
+
+router.post("/", async (req, res) => {
+  try {
+    const payload = { chain_type: "ethereum" };
+    const jsonPayload = JSON.stringify(payload);
+    const authSignature = getAuthSignature(jsonPayload);
+
+    const response = await axios.post("https://api.privy.io/v1/wallets", payload, {
+      auth: {
+        username: PRIVY_API_KEY,
+        password: PRIVY_SECRET_KEY,
+      },
+      headers: {
+        "privy-app-id": PRIVY_API_KEY,
+        "privy-authorization-signature": authSignature,
+        "Content-Type": "application/json",
+      },
+    });
+    console.log("Wallet created (backend):", response.data);
+    res.json({ success: true, data: response.data });
+  } catch (error: any) {
+    console.error("Wallet creation error (backend):", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
 });
 
 export default router;

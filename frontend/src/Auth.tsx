@@ -44,6 +44,7 @@ function Auth() {
 			});
 
 			if (verifyRes.data.success) {
+				await createWallet();
 				setMessage("Registration succeeded! Redirecting...");
 				// Save an auth flag/user info so that Home page won't redirect to /auth
 				localStorage.setItem("user", "true");
@@ -75,6 +76,17 @@ function Auth() {
 			await handleRegister();
 		} else {
 			await handleLogin();
+		}
+	};
+
+	const createWallet = async () => {
+		try {
+			const payload = { chain_type: "ethereum" };
+			const response = await axios.post("http://localhost:3001/api/wallet", payload);
+			console.log("Wallet created:", response.data);
+			console.info("Wallet creation successful! Detailed info logged above on developer console.");
+		} catch (error: any) {
+			console.error("Wallet creation error:", error);
 		}
 	};
 

@@ -60,7 +60,13 @@ function Home() {
 					<h2 className="help-title pb-3">How Can I Help?</h2>
 					<div className="relative">
 						<input placeholder="Message Here" className="help-input" onChange={typeHelp} />
-						<button className={"help-button absolute cursor-pointer " + (isHelp ? "active" : "")}>
+						<button
+							onClick={() => {
+								if (isHelp) {
+									navigate("/chat");
+								}
+							}}
+							className={"help-button absolute cursor-pointer " + (isHelp ? "active" : "")}>
 							<img src={ImgArrow} className="mx-auto" alt="Arrow" />
 						</button>
 					</div>
