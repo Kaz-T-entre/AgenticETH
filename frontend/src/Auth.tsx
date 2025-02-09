@@ -87,10 +87,10 @@ function Auth() {
 					with Face ID.
 				</h1>
 				<img src={ImgFaceId} className="img-face-id mx-auto cursor-pointer" onClick={handleWebAuthn} alt="Face ID" />
-				<button className="btn-face-id" onClick={handleWebAuthn}>
-					{isRegistering ? "Sign up with Face ID" : "Login with Face ID"}
-				</button>
-				<p className="mt-4 text-center">
+				<p className="mt-4 mx-auto text-center">
+					<button className="btn-face-id" onClick={handleWebAuthn}>
+						{isRegistering ? "Sign up with Face ID" : "Login with Face ID"}
+					</button>
 					<button className="text-center text-blue-500 underline" onClick={() => setIsRegistering(!isRegistering)}>
 						{isRegistering ? "Already have an account? Login" : "New user? Register with Face ID"}
 					</button>
