@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ImgArrow from "./assets/images/i-arrow.png";
 
-function Home() {
+function Chat() {
 	const navigate = useNavigate();
 	const [isHelp, setIsHelp] = useState(false);
 
@@ -37,4 +37,4 @@ function Home() {
 	);
 }
 
-export default Home;
+export default Chat;
