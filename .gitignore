@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 backend/env_vars.py
 backend/__pycache__
 
@@ -5,3 +6,9 @@ backend/__pycache__
 # Added by cargo
 
 /target
+=======
+node_modules/
+dist/
+.DS_Store
+.env 
+>>>>>>> main

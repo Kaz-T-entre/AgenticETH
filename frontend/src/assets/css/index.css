@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 body {
-	font-family: "Nunito";
+	font-family: "Nunito", sans-serif;
+	background-color: #f3f4f6;
 }
 .center-container {
 	display: grid;
@@ -14,6 +15,8 @@ body {
 .centered-box {
 	width: 100%;
 	max-width: 375px;
+	min-height: 100vh;
+	background: #ffffff;
 }
 .signup-title {
 	margin-bottom: 36px;
@@ -179,4 +182,39 @@ body {
 .img-receive {
 	width: 23px;
 	height: 24px;
+}
+.chat {
+	width: 100%;
+	margin-left: -1rem;
+}
+.chat .help-input {
+	height: 37px;
+	font-size: 16px;
+}
+.chat .help-button {
+	top: 18px;
+	right: 18px;
+	width: 33px;
+	height: 33px;
+}
+.chat .help-button img {
+	height: 23px;
+}
+.btn-add-crypto {
+	display: block;
+	font-family: Nunito;
+	font-weight: 700;
+	font-size: 24px;
+	line-height: 22px;
+	color: #fe62d7;
+	cursor: pointer;
+}
+.btn-skip-now {
+	display: block;
+	font-family: Nunito;
+	font-weight: 700;
+	font-size: 24px;
+	line-height: 22px;
+	color: #bbbbbb;
+	cursor: pointer;
 }
