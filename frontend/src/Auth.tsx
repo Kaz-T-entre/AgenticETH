@@ -80,7 +80,7 @@ function Auth() {
 
 	return (
 		<div className="center-container">
-			<div className="centered-box">
+			<div className="centered-box p-4">
 				<h1 className="signup-title">
 					Start Magic Wallet
 					<br />

@@ -17,7 +17,7 @@ function Intro() {
 
 	return (
 		<div className="center-container">
-			<div className="centered-box">
+			<div className="centered-box p-4">
 				<div className="flex flex-col items-center">
 					<img src={ImgIntroLogo} className="img-intro-logo" alt="Intro Logo" />
 					<img src={ImgIntroTitle} className="img-intro-title mt-4" alt="Intro Title" />
