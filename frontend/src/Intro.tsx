@@ -1,22 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ImgIntroLogo from "./assets/images/intro-logo.png";
 import ImgIntroTitle from "./assets/images/intro-title.png";
 
 function Intro() {
 	const navigate = useNavigate();
-
-	// Commented out auto-redirection for unauthenticated users to allow navigation from Intro
-	// useEffect(() => {
-	//   if (ready && !authenticated) {
-	//     navigate("/auth", { replace: true });
-	//   }
-	// }, [ready, authenticated, navigate]);
-
 	const handleAddFunds = () => {
-		console.log("Navigating to /home");
 		navigate("/home");
 	};
+
+	// If "user" is not found in localStorage, consider the user unauthenticated and redirect to the auth page
+	useEffect(() => {
+		const isAuth = localStorage.getItem("user");
+		if (!isAuth) navigate("/auth", { replace: true });
+	}, [navigate]);
 
 	return (
 		<div className="center-container">
